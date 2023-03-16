@@ -12,7 +12,7 @@ class Dashboard extends CI_Controller
 
 	public function index()
 	{
-		// AJAX WAITING JOB
+		// AJAX WAITING For Confirm
 		// ============================================= 
 		$data = '';
 		$data = json_encode($data);
@@ -112,7 +112,7 @@ class Dashboard extends CI_Controller
 							'content'	=> 'card',
 							'data'		=> [
 								'id'		=> 'waiting_job',
-								'title'		=> 'Waiting Job',
+								'title'		=> 'Waiting For Confirm',
 								'icon'		=> '',
 								'count_id'	=> 'count_request',
 								'count'		=> '',
@@ -165,7 +165,7 @@ class Dashboard extends CI_Controller
 									'content'	=> 'card',
 									'data'	=> [
 										'id'		=> '',
-										'title'		=> 'Job On Other Dpartement',
+										'title'		=> 'Charles',
 										'icon'		=> $image,
 										'count'		=> '08',
 										'date'		=> '',
@@ -179,7 +179,7 @@ class Dashboard extends CI_Controller
 									'content'	=> 'card',
 									'data'	=> [
 										'id'		=> '',
-										'title'		=> 'Job On Other Dpartement',
+										'title'		=> 'Naufal',
 										'icon'		=> $image,
 										'count'		=> '08',
 										'date'		=> '',
@@ -199,7 +199,7 @@ class Dashboard extends CI_Controller
 									'content'	=> 'card',
 									'data'	=> [
 										'id'		=> '',
-										'title'		=> 'Job On Other Dpartement',
+										'title'		=> 'Erwin',
 										'icon'		=> $image,
 										'count'		=> '08',
 										'date'		=> '',
@@ -280,8 +280,10 @@ class Dashboard extends CI_Controller
 
 
 
-			$image = '<div class="avatar bg-red">
-						<img width="40px" src="https://s.soloabadi.com/system-absen/asset/img/user/' . $val['leader_id'] . '" alt="">
+			$image = '<div class ="flex justify-center">
+						<div class="avatar bg-red">
+							<img width="40px" src="https://s.soloabadi.com/system-absen/asset/img/user/' . $val['leader_id'] . '" alt="">
+						</div>
 					</div>';
 			$config['data']['tbody'][$key] = array(
 				array(
@@ -294,7 +296,7 @@ class Dashboard extends CI_Controller
 				),
 				array(
 					'class' => 'text-left',
-					'data'  => $val['notes'] . '<br>' . '<h5>' . substr($val['jobdesk'], 0, 50) . '</h5>',
+					'data'  => $val['notes'] . '<br>' . '<h5>' . substr($val['jobdesk'], 0, 20) . '</h5>',
 				),
 				array(
 					'class' => 'text-center',
@@ -377,11 +379,11 @@ class Dashboard extends CI_Controller
 
 		$image_multiple = $this->image_multiple();
 
-		$config['table'] = [
+		$config['data']['table'] = [
 			'class'	=> 'table1-scroll'
 		];
 
-		$config['thead'] = array(
+		$config['data']['thead'] = array(
 			array(
 				'class'	=> 'text-center',
 				'data'	=> '',
@@ -429,7 +431,7 @@ class Dashboard extends CI_Controller
 					$priority = 'red';
 					break;
 			}
-			$config['tbody'][$key] = array(
+			$config['data']['tbody'][$key] = array(
 				array(
 					'class' => 'text-center',
 					'data'  => ' <div class="line-vertical-' . $priority . '"></div>'
@@ -452,7 +454,7 @@ class Dashboard extends CI_Controller
 				),
 				array(
 					'class' => 'text-center',
-					'data'  => '18 Feb 2022'
+					'data'  => $val['due_date']
 				),
 				array(
 					'class' => 'text-center',
