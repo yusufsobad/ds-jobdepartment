@@ -58,7 +58,7 @@ function ajax($url = '', $type = '', $data = [], $respon = '')
         function timer(url, type, data, respon) {
             setInterval(function() {
                 getData(url, type, data, respon)
-            }, 50000);
+            }, 1000);
         } // panggil setiap 1 detik
 
 

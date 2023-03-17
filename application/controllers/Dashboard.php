@@ -10,7 +10,7 @@ class Dashboard extends CI_Controller
 		$this->load->model('Blueprint');
 	}
 
-	public function index()
+	public function ajax_proccess()
 	{
 		// AJAX WAITING For Confirm
 		// ============================================= 
@@ -46,7 +46,37 @@ class Dashboard extends CI_Controller
 		$respon = '#job_other_dpartement';
 		ajax($url, $type, $data, $respon);
 
+		// AJAX JOB TEAM ONE 
+		// ============================================= 
+		$data = '';
+		$data = json_encode($data);
+		$url  = base_url('Dashboard/ajax_job_team_one');
+		$type = 'POST';
+		$respon = '#job_team_one';
+		ajax($url, $type, $data, $respon);
 
+		// AJAX JOB TEAM TWO 
+		// ============================================= 
+		$data = '';
+		$data = json_encode($data);
+		$url  = base_url('Dashboard/ajax_job_team_two');
+		$type = 'POST';
+		$respon = '#job_team_two';
+		ajax($url, $type, $data, $respon);
+
+		// AJAX JOB TEAM THREE 
+		// ============================================= 
+		$data = '';
+		$data = json_encode($data);
+		$url  = base_url('Dashboard/ajax_job_team_three');
+		$type = 'POST';
+		$respon = '#job_team_three';
+		ajax($url, $type, $data, $respon);
+	}
+
+	public function index()
+	{
+		$this->ajax_proccess();
 
 		$image = '<div class="avatar bg-red ml-lg">
 						<img width="40px" src="assets/Sasi-Dashboard/img/template/fajar.png" alt="">
@@ -164,28 +194,28 @@ class Dashboard extends CI_Controller
 									'col'		=> '12 mt-xl p-0',
 									'content'	=> 'card',
 									'data'	=> [
-										'id'		=> '',
+										'id'		=> 'job_team_one',
 										'title'		=> 'Charles',
 										'icon'		=> $image,
 										'count'		=> '08',
 										'date'		=> '',
 										'content'	=> 'card-list',
 										'color'		=> 'bg-light',
-										'data'		=> $this->job_team()
+										'data'		=> $this->job_team_one()
 									]
 								],
 								[
 									'col'		=> '12 mt-xl p-0',
 									'content'	=> 'card',
 									'data'	=> [
-										'id'		=> '',
+										'id'		=> 'job_team_two',
 										'title'		=> 'Naufal',
 										'icon'		=> $image,
 										'count'		=> '08',
 										'date'		=> '',
 										'content'	=> 'card-list',
 										'color'		=> 'bg-light',
-										'data'		=> $this->job_team()
+										'data'		=> $this->job_team_two()
 									]
 								],
 							]
@@ -198,14 +228,14 @@ class Dashboard extends CI_Controller
 									'col'		=> '12 mt-xl p-0',
 									'content'	=> 'card',
 									'data'	=> [
-										'id'		=> '',
+										'id'		=> 'job_team_three',
 										'title'		=> 'Erwin',
 										'icon'		=> $image,
 										'count'		=> '08',
 										'date'		=> '',
 										'content'	=> 'card-list',
 										'color'		=> 'bg-light',
-										'data'		=> $this->job_team()
+										'data'		=> $this->job_team_three()
 									]
 								],
 							]
@@ -370,8 +400,12 @@ class Dashboard extends CI_Controller
 	public function job_other_dpartment()
 	{
 		$divisi_apd = 7;
-		$column = ['notes', 'jobdesk', 'priority', 'leader_id', 'due_date'];
+		$column = ['notes', 'jobdesk', 'priority', 'leader_id', 'due_date', 'progress', 'type'];
 		$data = $this->Blueprint->get_project_dpartement($divisi_apd,  $column);
+		// echo '<pre>';
+		// var_dump($data);
+		// echo '</pre>';
+		// die();
 
 		$image = '<div class="avatar bg-red">
 					<img width="40px" src="assets/Sasi-Dashboard/img/template/fajar.png" alt="">
@@ -420,6 +454,7 @@ class Dashboard extends CI_Controller
 
 		$no = 0;
 		foreach ($data as $key => $val) {
+			$progress =  0;
 			switch ($val['priority']) {
 				case '1':
 					$priority = 'green';
@@ -466,8 +501,8 @@ class Dashboard extends CI_Controller
 				array(
 					'class' => 'text-center',
 					'data'  => '<div class ="flex justify-center">
-								<div class="radialProgressBar progress-60">
-									<div class="overlay"><span class="deep-grey">10%</span></div>
+								<div class="radialProgressBar progress-' . $progress . '">
+									<div class="overlay"><span class="deep-grey"> ' . $progress . '%</span></div>
 								</div>
 							</div>
 							'
@@ -606,8 +641,7 @@ class Dashboard extends CI_Controller
 		return $config;
 	}
 
-
-	public function job_team()
+	public function job_team_one()
 	{
 		$data = [
 			[
@@ -651,5 +685,115 @@ class Dashboard extends CI_Controller
 			];
 		}
 		return $config;
+	}
+
+	public function ajax_job_team_one()
+	{
+		$data['data'] = $this->job_team_one();
+		$this->load->view('digital-signage/template/card-list', $data);
+	}
+
+	public function job_team_two()
+	{
+		$data = [
+			[
+				'title'		=> 'Membuat Design Plakat',
+				'date'		=> '18 Feb 2021',
+				'image'		=> 'fajar',
+				'status' 	=> 'green',
+				'hastag'	=>	['kmi', 'job order', 'project'],
+				'proggress'	=> '100',
+				'name'		=> 'Charles'
+			],
+			[
+				'title'		=> 'Membuat Design Plakat',
+				'date'		=> '18 Feb 2021',
+				'image'		=> 'fajar',
+				'status' 	=> 'red',
+				'hastag'	=>	['kmi', 'job order', 'project'],
+				'proggress'	=> '50',
+				'name'		=> 'Ganang'
+			],
+			[
+				'title'		=> 'Membuat Design Plakat',
+				'date'		=> '18 Feb 2021',
+				'image'		=> 'fajar',
+				'status' 	=> 'yellow',
+				'hastag'	=>	['kmi', 'job order', 'project'],
+				'proggress'	=> '30',
+				'name'		=> 'Pak Par'
+			],
+		];
+
+		$config = [];
+		foreach ($data as $val) {
+			$config[] = [
+				'title'		=> $val['title'],
+				'image'		=> $val['image'],
+				'date'		=> $val['date'],
+				'hastag'	=> $val['hastag'],
+				'status'	=> $val['status'],
+				'proggress'	=> $val['proggress'],
+			];
+		}
+		return $config;
+	}
+
+	public function ajax_job_team_two()
+	{
+		$data['data'] = $this->job_team_two();
+		$this->load->view('digital-signage/template/card-list', $data);
+	}
+
+	public function job_team_three()
+	{
+		$data = [
+			[
+				'title'		=> 'Membuat Design Plakat',
+				'date'		=> '18 Feb 2021',
+				'image'		=> 'fajar',
+				'status' 	=> 'green',
+				'hastag'	=>	['kmi', 'job order', 'project'],
+				'proggress'	=> '100',
+				'name'		=> 'Charles'
+			],
+			[
+				'title'		=> 'Membuat Design Plakat',
+				'date'		=> '18 Feb 2021',
+				'image'		=> 'fajar',
+				'status' 	=> 'red',
+				'hastag'	=>	['kmi', 'job order', 'project'],
+				'proggress'	=> '50',
+				'name'		=> 'Ganang'
+			],
+			[
+				'title'		=> 'Membuat Design Plakat',
+				'date'		=> '18 Feb 2021',
+				'image'		=> 'fajar',
+				'status' 	=> 'yellow',
+				'hastag'	=>	['kmi', 'job order', 'project'],
+				'proggress'	=> '30',
+				'name'		=> 'Pak Par'
+			],
+		];
+
+		$config = [];
+		foreach ($data as $val) {
+			$config[] = [
+				'title'		=> $val['title'],
+				'image'		=> $val['image'],
+				'date'		=> $val['date'],
+				'hastag'	=> $val['hastag'],
+				'status'	=> $val['status'],
+				'proggress'	=> $val['proggress'],
+			];
+		}
+		return $config;
+	}
+
+	public function ajax_job_team_three()
+	{
+		$data['data'] = $this->job_team_three();
+		$this->load->view('digital-signage/template/card-list', $data);
 	}
 }
