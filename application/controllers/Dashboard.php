@@ -83,11 +83,14 @@ class Dashboard extends CI_Controller
 					</div>
 				';
 
+		// $x = $this->count_waiting_job();
+		// var_dump($x);
+
 		$data = [
 			'content'	=> 'grid',
 			'data'		=> [
 				[
-					'col'		=> '12 mt-xl p-0',
+					'col'		=> '12 mt-md p-0',
 					'content'	=> 'grid',
 					'data'		=>	[
 						[
@@ -145,7 +148,7 @@ class Dashboard extends CI_Controller
 								'title'		=> 'Waiting For Confirm',
 								'icon'		=> '',
 								'count_id'	=> 'count_request',
-								'count'		=> '',
+								'count'		=> $this->count_waiting_job(),
 								'date'		=> '',
 								'content'	=> 'table-scroll',
 								'color'		=> 'bg-light card-square',
@@ -262,7 +265,7 @@ class Dashboard extends CI_Controller
 		$divisi_apd = 7;
 		$status_prepare = 1;
 		$count_project_apd = $this->Blueprint->count($divisi_apd, $status_prepare);
-		echo $count_project_apd;
+		return $count_project_apd;
 	}
 
 	public function table_waiting_job()
