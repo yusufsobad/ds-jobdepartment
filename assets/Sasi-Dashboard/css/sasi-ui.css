@@ -476,6 +476,10 @@ div{
     height: 250px;
 }
 
+.card-tall{
+    height: 651px;
+}
+
 .time {
     font-size: 45px;
 }
