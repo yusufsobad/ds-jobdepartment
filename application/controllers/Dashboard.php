@@ -134,7 +134,7 @@ class Dashboard extends CI_Controller
 					]
 				],
 				[
-					'col'		=> '12 mt-xl',
+					'col'		=> '12 mt-lg',
 					'content'	=> 'grid',
 					'data'		=> [
 						[
@@ -162,14 +162,14 @@ class Dashboard extends CI_Controller
 								'count'		=> '08',
 								'date'		=> '',
 								'content'	=> 'buble-chart',
-								'color'		=> 'bg-light',
+								'color'		=> 'bg-light card-square',
 								'data'		=> $this->buble_chart()
 							]
 						],
 					]
 				],
 				[
-					'col'		=> '12 mt-xl p-xl',
+					'col'		=> '12 mt-lg pl-xl pr-xl',
 					'content'	=> 'card',
 					'data'		=> [
 						'id'		=> 'job_other_dpartement',
@@ -191,7 +191,7 @@ class Dashboard extends CI_Controller
 							'content'	=> 'grid',
 							'data'		=> [
 								[
-									'col'		=> '12 mt-xl p-0',
+									'col'		=> '12 mt-lg p-0',
 									'content'	=> 'card',
 									'data'	=> [
 										'id'		=> 'job_team_one',
@@ -205,7 +205,7 @@ class Dashboard extends CI_Controller
 									]
 								],
 								[
-									'col'		=> '12 mt-xl p-0',
+									'col'		=> '12 mt-lg p-0',
 									'content'	=> 'card',
 									'data'	=> [
 										'id'		=> 'job_team_two',
@@ -225,7 +225,7 @@ class Dashboard extends CI_Controller
 							'content'	=> 'grid',
 							'data'		=> [
 								[
-									'col'		=> '12 mt-xl p-0',
+									'col'		=> '12 mt-lg p-0',
 									'content'	=> 'card',
 									'data'	=> [
 										'id'		=> 'job_team_three',

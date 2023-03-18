@@ -7,7 +7,7 @@
         #F8F8F8 50%,
         #F8F8F8 100%
     );
-    padding-bottom: 100px;
+    padding-bottom: 2px;
 }
 
 body{
@@ -39,35 +39,35 @@ body{
 }
 
 h1{
-    font-size: 55px;
+    font-size: 53px;
     margin: 0px;
 }
 
 h2{
-    font-size: 48px;
+    font-size: 46px;
     margin: 0px;
 }
 
 h3{
-    font-size: 20px;
+    font-size: 18px;
     margin: 0px;
 }
 
 h4{
-    font-size: 16px;
+    font-size: 14px;
     margin: 0px;
 }
 
 h5{
-    font-size: 12px;
+    font-size: 10px;
     margin: 0px;
 }
 span{
-font-size: 10px;
+font-size: 8px;
 }
 
 div{
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .light{
@@ -463,16 +463,17 @@ div{
 }
 
 
-.card-body{
-    padding: 20px;
+.card-body {
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .card-square{
-    height: 347px;
+    height: 333px;
 }
 
 .card-landscape{
-    height: 278px;
+    height: 265px;
 }
 
 .time {
@@ -785,7 +786,7 @@ div{
 /* =====CSS UI======= */
 
 .card-calendar{
-    margin-top: 35px;
+    margin-top: 10px;
     width: 323px;
     height: 109px;
     border-radius: 20px;
