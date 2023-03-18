@@ -90,7 +90,7 @@ class Dashboard extends CI_Controller
 			'content'	=> 'grid',
 			'data'		=> [
 				[
-					'col'		=> '12 mt-md p-0',
+					'col'		=> '12 mt-xl p-0',
 					'content'	=> 'grid',
 					'data'		=>	[
 						[

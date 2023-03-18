@@ -175,7 +175,7 @@ div{
 }
 
 .mt-lg{
-    margin-top: 20px;
+    margin-top: 17px;
 }
 
 .mt-xl{
@@ -676,8 +676,8 @@ div{
     background-color: #EDECF0;
     border-radius: 7px;
     float: left;
-    margin-right: 10px;
-    margin-top: 8px;
+    margin-right: 8px;
+    margin-top: 2px;
 }
 
 .progress-line-10{
@@ -788,14 +788,14 @@ div{
 .card-calendar{
     margin-top: 10px;
     width: 323px;
-    height: 109px;
+    height: 100px;
     border-radius: 20px;
     background-image: url("../img/template/bg-day.png");
     background-repeat: no-repeat;
 }
 
 .inner-card-calendar{
-    height: 109px;
+    height: 98px;
     display: flex;
     align-items: center;
 }
@@ -804,7 +804,7 @@ div{
     background-color: white;
     border-radius: 11px;
     width: 100%;
-    height: 88px;
+    height: 72px;
     padding: 8px;
     
 }

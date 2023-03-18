@@ -1,4 +1,4 @@
-<div class="w-100">
+<div class="w-100" style="margin-top: 91px;">
     <div class="row">
         <div class="col-xs-9 text-right p-0">
             <h4 class="black">Total Squad:</h4>

@@ -1,4 +1,4 @@
-<div class="mt-xl carousel owl-carousel">
+<div class="mt-md carousel owl-carousel">
     <div class="col-xs-2">
         <div class="image-squad bg-light-purple">
             <img width="90%" src="assets/Sasi-Dashboard/img/template/charles.png" alt="">
