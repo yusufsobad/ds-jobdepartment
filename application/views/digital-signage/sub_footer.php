@@ -22,14 +22,13 @@
             <img src="assets/Sasi-Dashboard/img/template/sobad-group.png" alt="">
         </div>
     </div>
-
 </div>
 <div class="content-footer">
     <div class="sasi-logo h-100 flex align-item-center justify-flex-end">
         © SASI <span class="mr-sm ml-sm"><img src="assets/Sasi-Dashboard/img/template/sasi-logo.png" alt=""></span>
     </div>
     <div class="marque-content h-100 flex align-item-center">
-        <marquee class="light">Isi teks disini</marquee>
+        <marquee id='marquee' class="light">Isi teks disini</marquee>
     </div>
     <div class="leader-animate">
         <img class="image-leader" src="assets/Sasi-Dashboard/img/template/GIF ANA 1.png" alt="">

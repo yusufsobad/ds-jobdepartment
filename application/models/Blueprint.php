@@ -48,7 +48,7 @@ class Blueprint extends CI_Model
         return $mydata['msg'];
     }
 
-    public function url_image($id)
+    public function get_team($id)
     {
 
         $url = 'http://192.168.20.200/system-beta/include/curl.php';
@@ -66,9 +66,36 @@ class Blueprint extends CI_Model
     {
         $url = 'http://192.168.20.200/system-beta/include/curl.php';
         $data = array(
-            'object'     => 'sobad_project',
+            'object'     => 'sobad_meta',
             'func'     => '_gets',
             'data'    => array($type, $args, $limit)
+        );
+        $data = $this->Curl->curls($url, $data);
+        $mydata = json_decode($data, true);
+        return $mydata['msg'];
+    }
+
+    public function get_projects_team($id = 0, $args = [])
+    {
+        $url = 'http://192.168.20.200/system-beta/include/curl.php';
+        $data = array(
+            'object'     => 'sobad_project_detail',
+            'func'     => 'get_projects_team',
+            'data'    => array($id, $args)
+        );
+        $data = $this->Curl->curls($url, $data);
+        $mydata = json_decode($data, true);
+        return $mydata['msg'];
+    }
+
+    public function get_url_image($id = 0)
+    {
+
+        $url = 'http://s.soloabadi.com/system-absen/include/curl.php';
+        $data = array(
+            'object' => 'sobad_user',
+            'func' => 'get_id',
+            'data' => array($id, array('picture', '_nickname'))
         );
         $data = $this->Curl->curls($url, $data);
         $mydata = json_decode($data, true);

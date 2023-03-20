@@ -23,7 +23,7 @@
             </div>
             <div class="col-xs-1 p-0">
                 <div class="avatar bg-purple m-auto">
-                    <img width="40px" src="assets/Sasi-Dashboard/img/template/<?= $val['image'] ?>.png" alt="">
+                    <img width="40px" src="https://s.soloabadi.com/system-absen/asset/img/user/<?= $val['image'] ?>" alt="">
                 </div>
             </div>
             <div class="col-xs-1 job-state">

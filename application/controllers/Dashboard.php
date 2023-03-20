@@ -10,6 +10,21 @@ class Dashboard extends CI_Controller
 		$this->load->model('Blueprint');
 	}
 
+	public function array_job_team()
+	{
+		$data = [
+			'project_id',
+			'notes',
+			'reff_note',
+			'priority',
+			'leader_id',
+			'due_date',
+			'progress',
+			'status',
+			'user',
+		];
+		return $data;
+	}
 	public function ajax_proccess()
 	{
 		// AJAX WAITING For Confirm
@@ -61,11 +76,11 @@ class Dashboard extends CI_Controller
 		// AJAX JOB TEAM ONE 
 		// ============================================= 
 		$data = [
-			'user_id' 	=> 3,
-			'status'	=> 2
+			'user_id' 	=> 25, // Charles
+			'column'	=> $this->array_job_team()
 		];
 		$data = json_encode($data);
-		$url  = base_url('Dashboard/ajax_job_team');
+		$url  = base_url('Dashboard/ajax_job_one');
 		$type = 'POST';
 		$respon = '#job_team_one';
 		ajax($url, $type, $data, $respon);
@@ -73,11 +88,11 @@ class Dashboard extends CI_Controller
 		// AJAX JOB TEAM TWO 
 		// ============================================= 
 		$data = [
-			'user_id' 	=> 3,
-			'status'	=> 2
+			'user_id' 	=> 83, // Berlin
+			'column'	=> $this->array_job_team()
 		];
 		$data = json_encode($data);
-		$url  = base_url('Dashboard/ajax_job_team');
+		$url  = base_url('Dashboard/ajax_job_two');
 		$type = 'POST';
 		$respon = '#job_team_two';
 		ajax($url, $type, $data, $respon);
@@ -85,11 +100,13 @@ class Dashboard extends CI_Controller
 		// AJAX JOB TEAM THREE 
 		// ============================================= 
 		$data = [
-			'user_id' 	=> 3,
-			'status'	=> 2
+			'user_id' 	=> 3, // Mas Erwin
+			'column'	=> $this->array_job_team()
 		];
+
+
 		$data = json_encode($data);
-		$url  = base_url('Dashboard/ajax_job_team');
+		$url  = base_url('Dashboard/ajax_job_three');
 		$type = 'POST';
 		$respon = '#job_team_three';
 		ajax($url, $type, $data, $respon);
@@ -99,13 +116,59 @@ class Dashboard extends CI_Controller
 	{
 		$this->ajax_proccess();
 
-		$image = '<div class="avatar bg-red ml-lg">
-						<img width="40px" src="assets/Sasi-Dashboard/img/template/fajar.png" alt="">
+		$count_team = $this->Blueprint->get_team(7);
+		$count_team =  count($count_team);
+
+
+		// DATA TEAM ===========================================================================================
+
+		$data_one = [
+			'user_id' 	=> 25, // Charless
+			'column'	=> $this->array_job_team()
+		];
+
+
+		$data_two = [
+			'user_id' 	=> 83, // Berlin
+			'column'	=> $this->array_job_team()
+		];
+
+		$data_three = [
+			'user_id' 	=> 3, // Mas Erwin
+			'column'	=> $this->array_job_team()
+		];
+
+		$user = $this->Blueprint->get_url_image($data_one['user_id']);
+		$image_one =   $user[0]['notes_pict'];
+		$nick_name_one = $user[0]['_nickname'];
+		$image_one = '<div class="avatar bg-light-purple ml-lg">
+						<img width="40px" src="https://s.soloabadi.com/system-absen/asset/img/user/' . $image_one . '" alt="">
 					</div>
 				';
-		$data_team = [
-			'user_id' 	=> 3,
-			'status'	=> 2
+
+		$user = $this->Blueprint->get_url_image($data_two['user_id']);
+		$image_two =   $user[0]['notes_pict'];
+		$nick_name_two = $user[0]['_nickname'];
+		$image_two = '<div class="avatar bg-light-purple ml-lg">
+						<img width="40px" src="https://s.soloabadi.com/system-absen/asset/img/user/' . $image_two . '" alt="">
+					</div>
+				';
+
+		$user = $this->Blueprint->get_url_image($data_three['user_id']);
+		$image_three =   $user[0]['notes_pict'];
+		$nick_name_three = $user[0]['_nickname'];
+		$image_three = '<div class="avatar bg-light-purple ml-lg">
+						<img width="40px" src="https://s.soloabadi.com/system-absen/asset/img/user/' . $image_three . '" alt="">
+					</div>
+				';
+
+
+		// END DATA TEAM ========================================================================================
+
+		$data_marque = [
+			'type' => 'marque',
+			'column'	=> ['meta_note'],
+			'limit'		=> 1
 		];
 
 		$data = [
@@ -145,14 +208,14 @@ class Dashboard extends CI_Controller
 									'col'		=> '12',
 									'content'	=> 'count-squad',
 									'data'		=> [
-										'total_squad'	=> '5',
-										'squad_work'	=> '3'
+										'total_squad'	=> $count_team,
+										'squad_work'	=> $count_team
 									]
 								],
 								[
 									'col'		=> '12',
 									'content'	=> 'image-carousel',
-									'data'		=> ''
+									'data'		=> $this->image_carousel(7)
 								],
 							]
 						],
@@ -220,13 +283,13 @@ class Dashboard extends CI_Controller
 									'content'	=> 'card',
 									'data'	=> [
 										'id'		=> 'job_team_one',
-										'title'		=> 'Charles',
-										'icon'		=> $image,
+										'title'		=> $nick_name_one,
+										'icon'		=> $image_one,
 										'count'		=> '08',
 										'date'		=> '',
 										'content'	=> 'card-list',
-										'color'		=> 'bg-linear-purple',
-										'data'		=> $this->job_team($data_team)
+										'color'		=> 'bg-linear-purple card-square',
+										'data'		=> $this->job_one($data_one)
 									]
 								],
 								[
@@ -234,13 +297,13 @@ class Dashboard extends CI_Controller
 									'content'	=> 'card',
 									'data'	=> [
 										'id'		=> 'job_team_two',
-										'title'		=> 'Naufal',
-										'icon'		=> $image,
+										'title'		=> $nick_name_two,
+										'icon'		=> $image_two,
 										'count'		=> '08',
 										'date'		=> '',
 										'content'	=> 'card-list',
-										'color'		=> 'bg-linear-purple ',
-										'data'		=> $this->job_team($data_team)
+										'color'		=> 'bg-linear-purple card-square',
+										'data'		=> $this->job_two($data_two)
 									]
 								],
 							]
@@ -254,13 +317,13 @@ class Dashboard extends CI_Controller
 									'content'	=> 'card',
 									'data'	=> [
 										'id'		=> 'job_team_three',
-										'title'		=> 'Erwin',
-										'icon'		=> $image,
+										'title'		=> $nick_name_three,
+										'icon'		=> $image_three,
 										'count'		=> '08',
 										'date'		=> '',
 										'content'	=> 'card-list',
 										'color'		=> 'bg-linear-purple card-tall',
-										'data'		=> $this->job_team($data_team)
+										'data'		=> $this->job_three($data_three)
 									]
 								],
 							]
@@ -269,11 +332,22 @@ class Dashboard extends CI_Controller
 				]
 			]
 		];
+		$data['marquee'] = $this->marquee($data_marque);
 		$this->load->view('layout', $data);
 	}
 
-	public function image_carousel()
+	public function image_carousel($id)
 	{
+		$data_squad = $this->Blueprint->get_team($id);
+
+		$data = [];
+		foreach ($data_squad as $val) {
+			$data[] = [
+				'url_image'	=> $val['url_image'],
+				'status'	=> ''
+			];
+		}
+		return $data;
 	}
 
 	// ******************************************************************************
@@ -331,10 +405,12 @@ class Dashboard extends CI_Controller
 					$priority = 'red';
 					break;
 			}
+			$user = $this->Blueprint->get_url_image($val['leader_id']);
+			$image =   $user[0]['notes_pict'];
 
 			$image = '<div class ="flex justify-center">
 						<div class="avatar bg-red">
-							<img width="40px" src="https://s.soloabadi.com/system-absen/asset/img/user/' . $val['leader_id'] . '" alt="">
+							<img width="40px" src="https://s.soloabadi.com/system-absen/asset/img/user/' . $image . '" alt="">
 						</div>
 					</div>';
 			$config['data']['tbody'][$key] = array(
@@ -659,59 +735,170 @@ class Dashboard extends CI_Controller
 		return $config;
 	}
 
-	public function job_team($args = array())
+	public function job_one($args = array())
 	{
 		$user_id = $args['user_id'];
-		$status = $args['status'];
-		$data = [
-			[
-				'title'		=> 'Membuat Design Plakat',
-				'date'		=> '18 Feb 2021',
-				'image'		=> 'fajar',
-				'status' 	=> 'green',
-				'hastag'	=>	['kmi', 'job order', 'project'],
-				'proggress'	=> '100',
-				'name'		=> 'Charles'
-			],
-			[
-				'title'		=> 'Membuat Design Plakat',
-				'date'		=> '18 Feb 2021',
-				'image'		=> 'fajar',
-				'status' 	=> 'red',
-				'hastag'	=>	['kmi', 'job order', 'project'],
-				'proggress'	=> '50',
-				'name'		=> 'Ganang'
-			],
-			[
-				'title'		=> 'Membuat Design Plakat',
-				'date'		=> '18 Feb 2021',
-				'image'		=> 'fajar',
-				'status' 	=> 'yellow',
-				'hastag'	=>	['kmi', 'job order', 'project'],
-				'proggress'	=> '30',
-				'name'		=> 'Pak Par'
-			],
-		];
-
+		$column = $args['column'];
+		$data = $this->Blueprint->get_projects_team($user_id, $column);
 		$config = [];
 		foreach ($data as $val) {
+			switch ($val['status_proj']) {
+				case '1':
+					$status = 'dark-grey';
+					break;
+				case '2':
+					$status = 'green';
+					break;
+				case '3':
+					$status = 'red';
+					break;
+				case '5':
+					$status = 'purple';
+					break;
+				case '6':
+					$status = 'yellow';
+					break;
+			}
+			$user = $this->Blueprint->get_url_image($val['leader_id_proj']);
+			$image_leader =   $user[0]['notes_pict'];
+
 			$config[] = [
-				'title'		=> $val['title'],
-				'image'		=> $val['image'],
-				'date'		=> $val['date'],
-				'hastag'	=> $val['hastag'],
-				'status'	=> $val['status'],
-				'proggress'	=> $val['proggress'],
+				'title'		=> $val['notes_proj'],
+				'image'		=> $image_leader,
+				'date'		=> '',
+				'hastag'	=> [],
+				'status'	=> $status,
+				'proggress'	=> $val['progress'],
 			];
 		}
 		return $config;
 	}
 
-	public function ajax_job_team()
+	public function ajax_job_one()
 	{
 		$args = $this->input->post('args');
 
-		$data['data'] = $this->job_team($args);
+		$data['data'] = $this->job_one($args);
 		$this->load->view('digital-signage/template/card-list', $data);
+	}
+
+
+	public function job_two($args = array())
+	{
+		$user_id = $args['user_id'];
+		$column = $args['column'];
+		$data = $this->Blueprint->get_projects_team($user_id, $column);
+		$config = [];
+		foreach ($data as $val) {
+			switch ($val['status_proj']) {
+				case '1':
+					$status = 'dark-grey';
+					break;
+				case '2':
+					$status = 'green';
+					break;
+				case '3':
+					$status = 'red';
+					break;
+				case '5':
+					$status = 'purple';
+					break;
+				case '6':
+					$status = 'yellow';
+					break;
+			}
+			$user = $this->Blueprint->get_url_image($val['leader_id_proj']);
+			$image_leader =   $user[0]['notes_pict'];
+
+			$config[] = [
+				'title'		=> $val['notes_proj'],
+				'image'		=> $image_leader,
+				'date'		=> '',
+				'hastag'	=> [],
+				'status'	=> $status,
+				'proggress'	=> $val['progress'],
+			];
+		}
+		return $config;
+	}
+
+	public function ajax_job_two()
+	{
+		$args = $this->input->post('args');
+
+		$data['data'] = $this->job_two($args);
+		$this->load->view('digital-signage/template/card-list', $data);
+	}
+
+
+	public function job_three($args = array())
+	{
+		$user_id = $args['user_id'];
+		$column = $args['column'];
+		$data = $this->Blueprint->get_projects_team($user_id, $column);
+		$config = [];
+		foreach ($data as $val) {
+			switch ($val['status_proj']) {
+				case '1':
+					$status = 'dark-grey';
+					break;
+				case '2':
+					$status = 'green';
+					break;
+				case '3':
+					$status = 'red';
+					break;
+				case '5':
+					$status = 'purple';
+					break;
+				case '6':
+					$status = 'yellow';
+					break;
+			}
+			$user = $this->Blueprint->get_url_image($val['leader_id_proj']);
+			$image_leader =   $user[0]['notes_pict'];
+			$config[] = [
+				'title'		=> $val['notes_proj'],
+				'image'		=> $image_leader,
+				'date'		=> '',
+				'hastag'	=> [],
+				'status'	=> $status,
+				'proggress'	=> $val['progress'],
+			];
+		}
+		return $config;
+	}
+
+	public function ajax_job_three()
+	{
+		$args = $this->input->post('args');
+
+		$data['data'] = $this->job_three($args);
+		$this->load->view('digital-signage/template/card-list', $data);
+	}
+
+
+
+
+
+
+
+
+
+
+
+	public function marquee($args = [])
+	{
+		$type   = $args['type'];
+		$column = $args['column'];
+		$limit = $args['limit'];
+
+		$data = $this->Blueprint->get_meta($type, $column, $limit);
+
+		return $data;
+	}
+
+	public function ajax_marquee()
+	{
 	}
 }
