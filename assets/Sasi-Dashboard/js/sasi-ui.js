@@ -1,7 +1,4 @@
-$(document).ready(function () {
-    scroll();
-
-    function scroll(){
+function scroll(){
     $.fn.infiniteScrollUp = function() {
         var self = this;
         var kids = self.children();
@@ -23,7 +20,7 @@ $(document).ready(function () {
         $('.table1-scroll').infiniteScrollUp();
     });
 }
-});
+
 
 
 

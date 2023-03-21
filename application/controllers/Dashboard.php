@@ -31,7 +31,7 @@ class Dashboard extends CI_Controller
 		// ============================================= 
 		$data = '';
 		$data = json_encode($data);
-		$url  = base_url('Dashboard/count_waiting_job');
+		$url  = base_url('Dashboard/ajax_count_waiting_job');
 		$type = 'POST';
 		$respon = '#count_request';
 		ajax($url, $type, $data, $respon);
@@ -69,6 +69,13 @@ class Dashboard extends CI_Controller
 		$respon = '#job_other_dpartement';
 		ajax($url, $type, $data, $respon);
 
+		$data = '';
+		$data = json_encode($data);
+		$url  = base_url('Dashboard/ajax_count_job_other_dpartment');
+		$type = 'POST';
+		$respon = '#count_job_other';
+		ajax($url, $type, $data, $respon);
+
 		// ============================================================
 		// ************************************************************
 		// ============================================================
@@ -85,6 +92,16 @@ class Dashboard extends CI_Controller
 		$respon = '#job_team_one';
 		ajax($url, $type, $data, $respon);
 
+		$data = [
+			'user_id' 	=> 25, // Charles
+			'column'	=> $this->array_job_team()
+		];
+		$data = json_encode($data);
+		$url  = base_url('Dashboard/ajax_count_job_one');
+		$type = 'POST';
+		$respon = '#count_job_one';
+		ajax($url, $type, $data, $respon);
+
 		// AJAX JOB TEAM TWO 
 		// ============================================= 
 		$data = [
@@ -97,18 +114,36 @@ class Dashboard extends CI_Controller
 		$respon = '#job_team_two';
 		ajax($url, $type, $data, $respon);
 
-		// AJAX JOB TEAM THREE 
+		$data = [
+			'user_id' 	=> 83, // Berlin
+			'column'	=> $this->array_job_team()
+		];
+		$data = json_encode($data);
+		$url  = base_url('Dashboard/ajax_count_job_two');
+		$type = 'POST';
+		$respon = '#count_job_two';
+		ajax($url, $type, $data, $respon);
+
+		// AJAX JOB TEAM THREE
 		// ============================================= 
 		$data = [
 			'user_id' 	=> 3, // Mas Erwin
 			'column'	=> $this->array_job_team()
 		];
-
-
 		$data = json_encode($data);
 		$url  = base_url('Dashboard/ajax_job_three');
 		$type = 'POST';
 		$respon = '#job_team_three';
+		ajax($url, $type, $data, $respon);
+
+		$data = [
+			'user_id' 	=> 3, // Charles
+			'column'	=> $this->array_job_team()
+		];
+		$data = json_encode($data);
+		$url  = base_url('Dashboard/ajax_count_job_three');
+		$type = 'POST';
+		$respon = '#count_job_three';
 		ajax($url, $type, $data, $respon);
 	}
 
@@ -119,14 +154,30 @@ class Dashboard extends CI_Controller
 		$count_team = $this->Blueprint->get_team(7);
 		$count_team =  count($count_team);
 
+		// ===========================================================================================
+		// DATA WAITING FOR CONFIRM 
 
-		// DATA TEAM ===========================================================================================
+		// END DATA WAITING FOR CONFIRM 
+		// ===========================================================================================
+
+		// ===========================================================================================
+		// DATA JOB ON OTHER DPARTEMENT
+
+		$divisi_apd = 7;
+		$column = ['ID', 'notes', 'jobdesk', 'priority', 'leader_id', 'due_date', 'progress', 'type'];
+		$count_job_other = $this->Blueprint->get_project_dpartement($divisi_apd,  $column);
+		$count_job_other = count($count_job_other);
+
+		// END JOB ON OTHER DPARTEMENT
+		// ===========================================================================================
+
+		// ===========================================================================================
+		// DATA JOB TEAM 
 
 		$data_one = [
 			'user_id' 	=> 25, // Charless
 			'column'	=> $this->array_job_team()
 		];
-
 
 		$data_two = [
 			'user_id' 	=> 83, // Berlin
@@ -139,36 +190,33 @@ class Dashboard extends CI_Controller
 		];
 
 		$user = $this->Blueprint->get_url_image($data_one['user_id']);
+
 		$image_one =   $user[0]['notes_pict'];
 		$nick_name_one = $user[0]['_nickname'];
-		$image_one = '<div class="avatar bg-light-purple ml-lg">
-						<img width="40px" src="https://s.soloabadi.com/system-absen/asset/img/user/' . $image_one . '" alt="">
-					</div>
-				';
+		$image_one = image($image_one, $this->get_divisi($data_one['user_id']));
+		$job_one = $this->Blueprint->get_projects_team($data_one['user_id'], $data_one['column']);
+		$count_job_one = count($job_one);
 
 		$user = $this->Blueprint->get_url_image($data_two['user_id']);
 		$image_two =   $user[0]['notes_pict'];
 		$nick_name_two = $user[0]['_nickname'];
-		$image_two = '<div class="avatar bg-light-purple ml-lg">
-						<img width="40px" src="https://s.soloabadi.com/system-absen/asset/img/user/' . $image_two . '" alt="">
-					</div>
-				';
+		$image_two = image($image_two, $this->get_divisi($data_two['user_id']));
+		$job_two = $this->Blueprint->get_projects_team($data_two['user_id'], $data_two['column']);
+		$count_job_two = count($job_two);
 
 		$user = $this->Blueprint->get_url_image($data_three['user_id']);
 		$image_three =   $user[0]['notes_pict'];
 		$nick_name_three = $user[0]['_nickname'];
-		$image_three = '<div class="avatar bg-light-purple ml-lg">
-						<img width="40px" src="https://s.soloabadi.com/system-absen/asset/img/user/' . $image_three . '" alt="">
-					</div>
-				';
+		$image_three = image($image_three, $this->get_divisi($data_three['user_id']));
+		$job_three = $this->Blueprint->get_projects_team($data_three['user_id'], $data_three['column']);
+		$count_job_three = count($job_three);
 
-
-		// END DATA TEAM ========================================================================================
-
+		// END DATA JOB TEAM 
+		// ===========================================================================================
 		$data_marque = [
 			'type' => 'marque',
 			'column'	=> ['meta_note'],
-			'limit'		=> 1
+			'limit'		=> "LIMIT 3"
 		];
 
 		$data = [
@@ -261,9 +309,10 @@ class Dashboard extends CI_Controller
 					'content'	=> 'card',
 					'data'		=> [
 						'id'		=> 'job_other_dpartement',
+						'count_id'	=> 'count_job_other',
 						'title'		=> 'Job On Other Dpartement',
 						'icon'		=> '',
-						'count'		=> '08',
+						'count'		=> $count_job_other,
 						'date'		=> '',
 						'content'	=> 'table-scroll',
 						'color'		=> 'bg-light card-landscape',
@@ -283,9 +332,10 @@ class Dashboard extends CI_Controller
 									'content'	=> 'card',
 									'data'	=> [
 										'id'		=> 'job_team_one',
+										'count_id'	=> 'count_job_one',
 										'title'		=> $nick_name_one,
 										'icon'		=> $image_one,
-										'count'		=> '08',
+										'count'		=> $count_job_one,
 										'date'		=> '',
 										'content'	=> 'card-list',
 										'color'		=> 'bg-linear-purple card-square',
@@ -297,9 +347,10 @@ class Dashboard extends CI_Controller
 									'content'	=> 'card',
 									'data'	=> [
 										'id'		=> 'job_team_two',
+										'count_id'	=> 'count_job_two',
 										'title'		=> $nick_name_two,
 										'icon'		=> $image_two,
-										'count'		=> '08',
+										'count'		=> $count_job_two,
 										'date'		=> '',
 										'content'	=> 'card-list',
 										'color'		=> 'bg-linear-purple card-square',
@@ -317,9 +368,10 @@ class Dashboard extends CI_Controller
 									'content'	=> 'card',
 									'data'	=> [
 										'id'		=> 'job_team_three',
+										'count_id'	=> 'count_job_three',
 										'title'		=> $nick_name_three,
 										'icon'		=> $image_three,
-										'count'		=> '08',
+										'count'		=> $count_job_three,
 										'date'		=> '',
 										'content'	=> 'card-list',
 										'color'		=> 'bg-linear-purple card-tall',
@@ -336,15 +388,22 @@ class Dashboard extends CI_Controller
 		$this->load->view('layout', $data);
 	}
 
-	public function image_carousel($id)
+	public function image_carousel($id = 0)
 	{
-		$data_squad = $this->Blueprint->get_team($id);
+		$data_teams = $this->Blueprint->get_jbd_module(['leader_dept', 'detail'], "AND ID=$id");
+		$leader = $data_teams[0]['leader_dept'];
+		$detail = $data_teams[0]['detail'];
+		$detail = explode(',', $detail);
+		array_push($detail, $leader);
 
 		$data = [];
-		foreach ($data_squad as $val) {
+		foreach ($detail as $val) {
+			$user = $this->Blueprint->get_url_image($val);
+			$check_work = $this->Blueprint->get_team_work($val);
+			$url_img =   $user[0]['notes_pict'];
 			$data[] = [
-				'url_image'	=> $val['url_image'],
-				'status'	=> ''
+				'url_image'	=> $url_img,
+				'status'	=> $check_work['status']
 			];
 		}
 		return $data;
@@ -356,6 +415,14 @@ class Dashboard extends CI_Controller
 	// ============================
 
 	public function count_waiting_job()
+	{
+		$divisi_apd = 7;
+		$status_prepare = 1;
+		$count_project_apd = $this->Blueprint->count($divisi_apd, $status_prepare);
+		return $count_project_apd;
+	}
+
+	public function ajax_count_waiting_job()
 	{
 		$divisi_apd = 7;
 		$status_prepare = 1;
@@ -408,11 +475,6 @@ class Dashboard extends CI_Controller
 			$user = $this->Blueprint->get_url_image($val['leader_id']);
 			$image =   $user[0]['notes_pict'];
 
-			$image = '<div class ="flex justify-center">
-						<div class="avatar bg-red">
-							<img width="40px" src="https://s.soloabadi.com/system-absen/asset/img/user/' . $image . '" alt="">
-						</div>
-					</div>';
 			$config['data']['tbody'][$key] = array(
 				array(
 					'class' => 'text-center',
@@ -428,7 +490,7 @@ class Dashboard extends CI_Controller
 				),
 				array(
 					'class' => 'text-center',
-					'data'  => $image,
+					'data'  => image($image, $this->get_divisi($val['leader_id']))
 				),
 			);
 		}
@@ -546,15 +608,12 @@ class Dashboard extends CI_Controller
 
 			$user = $this->Blueprint->get_url_image($val['leader_id']);
 			$image_leader =   $user[0]['notes_pict'];
-			$image_leader = '<div class="avatar bg-red">
-					<img width="40px" src="https://s.soloabadi.com/system-absen/asset/img/user/' . $image_leader . '"  alt="">
-				</div>';
 
 			$user = $this->Blueprint->get_url_image($get_team['user_id']);
 			$image_team =   $user[0]['notes_pict'];
 			$image_teams = [
 				'image'		=> $image_team,
-				'color'	=> 'purple'
+				'divisi'	=> $this->get_divisi($get_team['user_id'])
 			];
 
 			$progress =  0;
@@ -584,7 +643,7 @@ class Dashboard extends CI_Controller
 				),
 				array(
 					'class' => 'text-center',
-					'data'  => $image_leader,
+					'data'  => image($image_leader, $this->get_divisi($val['leader_id'])),
 				),
 				array(
 					'class' => 'text-center',
@@ -630,15 +689,24 @@ class Dashboard extends CI_Controller
 ?>
 		<div class="flex justify-center">
 			<?php foreach ($data as $val) { ?>
-				<div class="avatar bg-<?= $val['color'] ?>">
-					<img width="40px" src="https://s.soloabadi.com/system-absen/asset/img/user/<?= $val['image'] ?>" alt="">
-				</div>
+				<?= image($val['image'], $val['divisi']) ?>
 			<?php } ?>
 		</div>
 
 <?php
 		$contents = ob_get_clean();
 		return $contents;
+	}
+
+	public function ajax_count_job_other_dpartment()
+	{
+		$divisi_apd = 7;
+		$column = ['ID', 'notes', 'jobdesk', 'priority', 'leader_id', 'due_date', 'progress', 'type'];
+		$data = $this->Blueprint->get_project_dpartement($divisi_apd,  $column);
+
+		$data = count($data);
+
+		echo $data;
 	}
 
 	// ============================
@@ -728,13 +796,29 @@ class Dashboard extends CI_Controller
 		return $config;
 	}
 
+	public function get_divisi($id = 0)
+	{
+		$get_divisi = $this->Blueprint->get_jbd_module(['name', 'detail', 'leader_dept'], "");
+		foreach ($get_divisi as $value) {
+			$team = explode(",", $value['detail']);
+			if (in_array($id, $team) || $id == $value['leader_dept']) {
+				$divisi = $value['name'];
+			}
+		}
+		return $divisi;
+	}
+
 	public function job_one($args = array())
 	{
 		$user_id = $args['user_id'];
 		$column = $args['column'];
 		$data = $this->Blueprint->get_projects_team($user_id, $column);
 		$config = [];
+
+
 		foreach ($data as $val) {
+			$leader_project = $val['leader_id_proj'];
+			$get_divisi = $this->get_divisi($leader_project);
 			switch ($val['status_proj']) {
 				case '1':
 					$status = 'dark-grey';
@@ -772,6 +856,7 @@ class Dashboard extends CI_Controller
 				'image'		=> $image_leader,
 				'date'		=> '',
 				'hastag'	=> [],
+				'divisi'	=> $get_divisi,
 				'status'	=> $status,
 				'proggress'	=> $val['progress'],
 			];
@@ -787,6 +872,16 @@ class Dashboard extends CI_Controller
 		$this->load->view('digital-signage/template/card-list', $data);
 	}
 
+	public function ajax_count_job_one()
+	{
+		$args = $this->input->post('args');
+		$user_id = $args['user_id'];
+		$column = $args['column'];
+		$data = $this->Blueprint->get_projects_team($user_id, $column);
+		$count = count($data);
+		echo $count;
+	}
+
 
 	public function job_two($args = array())
 	{
@@ -795,6 +890,8 @@ class Dashboard extends CI_Controller
 		$data = $this->Blueprint->get_projects_team($user_id, $column);
 		$config = [];
 		foreach ($data as $val) {
+			$leader_project = $val['leader_id_proj'];
+			$get_divisi = $this->get_divisi($leader_project);
 			switch ($val['status_proj']) {
 				case '1':
 					$status = 'dark-grey';
@@ -832,6 +929,7 @@ class Dashboard extends CI_Controller
 				'image'		=> $image_leader,
 				'date'		=> '',
 				'hastag'	=> [],
+				'divisi'	=> $get_divisi,
 				'status'	=> $status,
 				'proggress'	=> $val['progress'],
 			];
@@ -847,6 +945,16 @@ class Dashboard extends CI_Controller
 		$this->load->view('digital-signage/template/card-list', $data);
 	}
 
+	public function ajax_count_job_two()
+	{
+		$args = $this->input->post('args');
+		$user_id = $args['user_id'];
+		$column = $args['column'];
+		$data = $this->Blueprint->get_projects_team($user_id, $column);
+		$count = count($data);
+		echo $count;
+	}
+
 	public function job_three($args = array())
 	{
 		$user_id = $args['user_id'];
@@ -854,6 +962,8 @@ class Dashboard extends CI_Controller
 		$data = $this->Blueprint->get_projects_team($user_id, $column);
 		$config = [];
 		foreach ($data as $val) {
+			$leader_project = $val['leader_id_proj'];
+			$get_divisi = $this->get_divisi($leader_project);
 			switch ($val['status_proj']) {
 				case '1':
 					$status = 'dark-grey';
@@ -890,6 +1000,7 @@ class Dashboard extends CI_Controller
 				'image'		=> $image_leader,
 				'date'		=> '',
 				'hastag'	=> [],
+				'divisi'	=> $get_divisi,
 				'status'	=> $status,
 				'proggress'	=> $val['progress'],
 			];
@@ -905,6 +1016,15 @@ class Dashboard extends CI_Controller
 		$this->load->view('digital-signage/template/card-list', $data);
 	}
 
+	public function ajax_count_job_three()
+	{
+		$args = $this->input->post('args');
+		$user_id = $args['user_id'];
+		$column = $args['column'];
+		$data = $this->Blueprint->get_projects_team($user_id, $column);
+		$count = count($data);
+		echo $count;
+	}
 
 	public function marquee($args = [])
 	{

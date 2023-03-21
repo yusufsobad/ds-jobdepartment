@@ -9,9 +9,7 @@
                 <?= isset($date) ? $date : '' ?>
             </div>
             <div class="col-xs-1 relative">
-                <div id="<?= $count_id ?>" class="absolute count-job">
-                    <?= isset($count) ? $count : '' ?>
-                </div>
+                <div id="<?= $count_id ?>" class="absolute count-job"><?= isset($count) ? $count : '' ?></div>
             </div>
         </div>
     </div>

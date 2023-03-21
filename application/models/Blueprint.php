@@ -5,7 +5,6 @@ class Blueprint extends CI_Model
     public function __construct()
     {
         parent::__construct();
-
         $this->load->model('Curl');
     }
 
@@ -50,7 +49,6 @@ class Blueprint extends CI_Model
 
     public function get_team($id)
     {
-
         $url = 'http://192.168.20.200/system-beta/include/curl.php';
         $data = array(
             'object'     => 'jobdesk_dashboard',
@@ -90,7 +88,6 @@ class Blueprint extends CI_Model
 
     public function get_url_image($id = 0)
     {
-
         $url = 'http://s.soloabadi.com/system-absen/include/curl.php';
         $data = array(
             'object' => 'sobad_user',
@@ -109,6 +106,33 @@ class Blueprint extends CI_Model
             'object' => 'sobad_project_detail',
             'func' => 'get_id',
             'data' => array($id, $args)
+        );
+        $data = $this->Curl->curls($url, $data);
+        $mydata = json_decode($data, true);
+        return $mydata['msg'];
+    }
+
+    public function get_jbd_module($args = [], $where = '')
+    {
+        $url = 'http://192.168.20.200/system-beta/include/curl.php';
+        $data = array(
+            'object' => 'sobad_module',
+            'func' => 'get_all',
+            'data' => array($args, $where)
+        );
+        $data = $this->Curl->curls($url, $data);
+        $mydata = json_decode($data, true);
+        return $mydata['msg'];
+    }
+
+    public function get_team_work($user = 0)
+    {
+        $date = date('Y-m-d');
+        $url = 'http://s.soloabadi.com/system-absen/include/curl.php';
+        $data = array(
+            'object' => 'sobad_user',
+            'func' => 'check_user_work',
+            'data' => array($user, $date)
         );
         $data = $this->Curl->curls($url, $data);
         $mydata = json_decode($data, true);

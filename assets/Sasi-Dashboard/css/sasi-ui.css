@@ -7,7 +7,7 @@
         #F8F8F8 50%,
         #F8F8F8 100%
     );
-    padding-bottom: 2px;
+    padding-bottom: 103px;
 }
 
 body{
@@ -144,6 +144,48 @@ div{
     background: radial-gradient(275.19% 275.19% at 47.5% 15.84%, rgba(157, 40, 221, 0) 18.46%, rgba(157, 40, 221, 0.66) 100%)
 }
 
+.bg-marketing {
+    background-color: #E85742;
+}
+.bg-enginer{
+    background-color: #FEC967;
+}
+
+.bg-it {
+    background-color: #71D0C8;
+}
+
+.bg-apd {
+    background-color: #AE7FAB;
+}
+
+.bg-ppic {
+    background-color: #9B543C;
+}
+
+.bg-produksi {
+    background-color: #496CA0;
+}
+
+.bg-mrp {
+    background-color: #8A2223;
+}
+
+.bg-qc {
+    background-color: #EC7599;
+}
+
+.bg-ast{
+    background-color: #59B1E4;
+}
+
+.bg-hrd {
+    background-color: #77C77E;
+}
+
+.bg-direktur{
+    background-color: #C4C4C4;
+}
 .radius-md{
     border-radius: 20px;
 }
@@ -151,6 +193,8 @@ div{
 .radius-lg{
     border-radius: 30px;
 }
+
+
 
 
 /* MARGIN */
@@ -473,11 +517,11 @@ div{
 }
 
 .card-landscape{
-    height: 250px;
+    height: 253px;
 }
 
 .card-tall{
-    height: 651px;
+    height: 649px;
 }
 
 .time {
