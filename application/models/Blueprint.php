@@ -101,4 +101,17 @@ class Blueprint extends CI_Model
         $mydata = json_decode($data, true);
         return $mydata['msg'];
     }
+
+    public function get_project_detail($id, $args = [])
+    {
+        $url = 'http://192.168.20.200/system-beta/include/curl.php';
+        $data = array(
+            'object' => 'sobad_project_detail',
+            'func' => 'get_id',
+            'data' => array($id, $args)
+        );
+        $data = $this->Curl->curls($url, $data);
+        $mydata = json_decode($data, true);
+        return $mydata['msg'];
+    }
 }

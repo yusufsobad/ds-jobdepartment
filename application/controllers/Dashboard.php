@@ -360,7 +360,7 @@ class Dashboard extends CI_Controller
 		$divisi_apd = 7;
 		$status_prepare = 1;
 		$count_project_apd = $this->Blueprint->count($divisi_apd, $status_prepare);
-		return $count_project_apd;
+		echo $count_project_apd;
 	}
 
 	public function table_waiting_job()
@@ -498,14 +498,8 @@ class Dashboard extends CI_Controller
 	public function job_other_dpartment()
 	{
 		$divisi_apd = 7;
-		$column = ['notes', 'jobdesk', 'priority', 'leader_id', 'due_date', 'progress', 'type'];
+		$column = ['ID', 'notes', 'jobdesk', 'priority', 'leader_id', 'due_date', 'progress', 'type'];
 		$data = $this->Blueprint->get_project_dpartement($divisi_apd,  $column);
-
-		$image = '<div class="avatar bg-red">
-					<img width="40px" src="assets/Sasi-Dashboard/img/template/fajar.png" alt="">
-				</div>';
-
-		$image_multiple = $this->image_multiple();
 
 		$config['data']['table'] = [
 			'class'	=> 'table1-scroll'
@@ -548,6 +542,21 @@ class Dashboard extends CI_Controller
 
 		$no = 0;
 		foreach ($data as $key => $val) {
+			$get_team = $this->Blueprint->get_project_detail($val['ID'], ['user_id'])[0];
+
+			$user = $this->Blueprint->get_url_image($val['leader_id']);
+			$image_leader =   $user[0]['notes_pict'];
+			$image_leader = '<div class="avatar bg-red">
+					<img width="40px" src="https://s.soloabadi.com/system-absen/asset/img/user/' . $image_leader . '"  alt="">
+				</div>';
+
+			$user = $this->Blueprint->get_url_image($get_team['user_id']);
+			$image_team =   $user[0]['notes_pict'];
+			$image_teams = [
+				'image'		=> $image_team,
+				'color'	=> 'purple'
+			];
+
 			$progress =  0;
 			switch ($val['priority']) {
 				case '1':
@@ -575,11 +584,11 @@ class Dashboard extends CI_Controller
 				),
 				array(
 					'class' => 'text-center',
-					'data'  => $image,
+					'data'  => $image_leader,
 				),
 				array(
 					'class' => 'text-center',
-					'data'  => $image_multiple,
+					'data'  =>  $this->image_multiple($image_teams),
 				),
 				array(
 					'class' => 'text-center',
@@ -603,6 +612,7 @@ class Dashboard extends CI_Controller
 				),
 			);
 		}
+
 		return $config;
 	}
 
@@ -612,32 +622,16 @@ class Dashboard extends CI_Controller
 		$this->load->view('digital-signage/template/table-scroll', $data);
 	}
 
-	public function image_multiple()
+	public function image_multiple($data = [])
 	{
-		$data = [
-			[
-				'image'	=> 'fajar',
-				'color'	=> 'purple'
-			],
-			[
-				'image'	=> 'fajar',
-				'color'	=> 'yellow'
-			],
-			[
-				'image'	=> 'fajar',
-				'color'	=> 'green'
-			],
-			[
-				'image'	=> 'fajar',
-				'color'	=> 'red'
-			],
-		];
+		$data = [$data];
+
 		ob_start();
 ?>
 		<div class="flex justify-center">
 			<?php foreach ($data as $val) { ?>
 				<div class="avatar bg-<?= $val['color'] ?>">
-					<img width="40px" src="assets/Sasi-Dashboard/img/template/<?= $val['image'] ?>.png" alt="">
+					<img width="40px" src="https://s.soloabadi.com/system-absen/asset/img/user/<?= $val['image'] ?>" alt="">
 				</div>
 			<?php } ?>
 		</div>
@@ -673,7 +667,6 @@ class Dashboard extends CI_Controller
 				'leader_id'	=> 'assets/Sasi-Dashboard/img/template/fajar.png',
 			],
 		];
-
 
 		$config['table'] = [
 			'class'	=> 'table-scroll'
@@ -759,10 +752,22 @@ class Dashboard extends CI_Controller
 					$status = 'yellow';
 					break;
 			}
+			switch ($val['priority_proj']) {
+				case '1':
+					$priority = 'green';
+					break;
+				case '3':
+					$priority = 'yellow';
+					break;
+				case '5':
+					$priority = 'red';
+					break;
+			}
 			$user = $this->Blueprint->get_url_image($val['leader_id_proj']);
 			$image_leader =   $user[0]['notes_pict'];
 
 			$config[] = [
+				'priority'	=> $priority,
 				'title'		=> $val['notes_proj'],
 				'image'		=> $image_leader,
 				'date'		=> '',
@@ -807,10 +812,22 @@ class Dashboard extends CI_Controller
 					$status = 'yellow';
 					break;
 			}
+			switch ($val['priority_proj']) {
+				case '1':
+					$priority = 'green';
+					break;
+				case '3':
+					$priority = 'yellow';
+					break;
+				case '5':
+					$priority = 'red';
+					break;
+			}
 			$user = $this->Blueprint->get_url_image($val['leader_id_proj']);
 			$image_leader =   $user[0]['notes_pict'];
 
 			$config[] = [
+				'priority'	=> $priority,
 				'title'		=> $val['notes_proj'],
 				'image'		=> $image_leader,
 				'date'		=> '',
@@ -829,7 +846,6 @@ class Dashboard extends CI_Controller
 		$data['data'] = $this->job_two($args);
 		$this->load->view('digital-signage/template/card-list', $data);
 	}
-
 
 	public function job_three($args = array())
 	{
@@ -855,9 +871,21 @@ class Dashboard extends CI_Controller
 					$status = 'yellow';
 					break;
 			}
+			switch ($val['priority_proj']) {
+				case '1':
+					$priority = 'green';
+					break;
+				case '3':
+					$priority = 'yellow';
+					break;
+				case '5':
+					$priority = 'red';
+					break;
+			}
 			$user = $this->Blueprint->get_url_image($val['leader_id_proj']);
 			$image_leader =   $user[0]['notes_pict'];
 			$config[] = [
+				'priority'	=> $priority,
 				'title'		=> $val['notes_proj'],
 				'image'		=> $image_leader,
 				'date'		=> '',
@@ -876,15 +904,6 @@ class Dashboard extends CI_Controller
 		$data['data'] = $this->job_three($args);
 		$this->load->view('digital-signage/template/card-list', $data);
 	}
-
-
-
-
-
-
-
-
-
 
 
 	public function marquee($args = [])

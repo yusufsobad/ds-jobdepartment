@@ -2,7 +2,7 @@
     <div class="list-card scroll">
         <div class="row m-0 h-100 flex align-item-center">
             <div class="col-xs-1">
-                <div class="line-vertical-red"></div>
+                <div class="line-vertical-<?= $val['priority'] ?>"></div>
             </div>
             <div class="col-xs-6 p-0">
                 <?= $val['title'] ?> <br>
