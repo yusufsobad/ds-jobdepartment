@@ -167,11 +167,7 @@ class Dashboard extends CI_Controller
 
 	public function index()
 	{
-		// $x = $this->job_team();
-		// echo '<pre>';
-		// var_dump($x);
-		// echo '</pre>';
-		// die();
+
 		$this->ajax_proccess();
 		$count_team = $this->Blueprint->get_team(7);
 		$count_team =  count($count_team);
