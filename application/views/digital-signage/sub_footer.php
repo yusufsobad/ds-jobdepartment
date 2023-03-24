@@ -28,7 +28,7 @@
         © SASI <span class="mr-sm ml-sm"><img src="assets/Sasi-Dashboard/img/template/sasi-logo.png" alt=""></span>
     </div>
     <div class="marque-content h-100 flex align-item-center">
-        <marquee id='marquee' class="light"></marquee>
+        <marquee id='marquee' class="light"><?= $marquee[0]['meta_note'] ?></marquee>
     </div>
     <div class="leader-animate">
         <img class="image-leader" src="assets/Sasi-Dashboard/img/template/GIF ANA 1.png" alt="">

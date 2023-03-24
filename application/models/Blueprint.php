@@ -138,4 +138,17 @@ class Blueprint extends CI_Model
         $mydata = json_decode($data, true);
         return $mydata['msg'];
     }
+
+    public function get_post($id = 0)
+    {
+        $url = 'http://s.soloabadi.com/system-beta/include/curl.php';
+        $data = array(
+            'object' => 'group_post',
+            'func' => 'get_id',
+            'data' => array($id)
+        );
+        $data = $this->Curl->curls($url, $data);
+        $mydata = json_decode($data, true);
+        return $mydata['msg'];
+    }
 }

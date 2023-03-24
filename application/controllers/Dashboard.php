@@ -8,6 +8,10 @@ class Dashboard extends CI_Controller
 		parent::__construct();
 
 		$this->load->model('Blueprint');
+		$this->load->model('Sobad_project');
+		$this->load->model('Sobad_project_detail');
+		$this->load->model('Sobad_module');
+		$this->load->model('Sobad_group_post');
 	}
 
 	public function array_job_team()
@@ -27,6 +31,14 @@ class Dashboard extends CI_Controller
 	}
 	public function ajax_proccess()
 	{
+		// AJAX IMAGE CAROUSEL
+		$data = '';
+		$data = json_encode($data);
+		$url  = base_url('Dashboard/ajax_image_carousel');
+		$type = 'POST';
+		$respon = '#image_carousel';
+		ajax($url, $type, $data, $respon);
+
 		// AJAX WAITING For Confirm
 		// ============================================= 
 		$data = '';
@@ -51,11 +63,17 @@ class Dashboard extends CI_Controller
 		// ============================================= 
 		$data = '';
 		$data = json_encode($data);
-		$url  = base_url('Dashboard/buble_chart');
+		$url  = base_url('Dashboard/ajax_bublechart');
 		$type = 'POST';
-		$respon = '';
+		$respon = '#buble_chart';
 		ajax($url, $type, $data, $respon);
 
+		$data = '';
+		$data = json_encode($data);
+		$url  = base_url('Dashboard/count_bublechart');
+		$type = 'POST';
+		$respon = '#count_bublechart';
+		ajax($url, $type, $data, $respon);
 		// ============================================================
 		// ************************************************************
 		// ============================================================
@@ -149,8 +167,12 @@ class Dashboard extends CI_Controller
 
 	public function index()
 	{
+		// $x = $this->job_team();
+		// echo '<pre>';
+		// var_dump($x);
+		// echo '</pre>';
+		// die();
 		$this->ajax_proccess();
-
 		$count_team = $this->Blueprint->get_team(7);
 		$count_team =  count($count_team);
 
@@ -211,12 +233,16 @@ class Dashboard extends CI_Controller
 		$job_three = $this->Blueprint->get_projects_team($data_three['user_id'], $data_three['column']);
 		$count_job_three = count($job_three);
 
+		$count_bublechart = $this->data_bublechart();
+		$count_bublechart = $count_bublechart[1]['total_count'];
+
+
 		// END DATA JOB TEAM 
 		// ===========================================================================================
 		$data_marque = [
-			'type' => 'marque',
+			'type' => 'marquee',
 			'column'	=> ['meta_note'],
-			'limit'		=> "LIMIT 3"
+			'limit'		=> "LIMIT 1"
 		];
 
 		$data = [
@@ -261,9 +287,10 @@ class Dashboard extends CI_Controller
 									]
 								],
 								[
+									'id'		=> 'image_carousel',
 									'col'		=> '12',
 									'content'	=> 'image-carousel',
-									'data'		=> $this->image_carousel(7)
+									'data'		=> $this->image_carousel()
 								],
 							]
 						],
@@ -292,10 +319,11 @@ class Dashboard extends CI_Controller
 							'col'		=> '6',
 							'content'	=> 'card',
 							'data'		=> [
-								'id'		=> '',
+								'id'		=> 'buble_chart',
+								'count_id'	=> 'count_bublechart',
 								'title'		=> 'Total Request',
 								'icon'		=> '<span class="cube bg-purple ml-xl"></span>',
-								'count'		=> '08',
+								'count'		=> $count_bublechart,
 								'date'		=> '',
 								'content'	=> 'buble-chart',
 								'color'		=> 'bg-light card-square',
@@ -328,33 +356,33 @@ class Dashboard extends CI_Controller
 							'content'	=> 'grid',
 							'data'		=> [
 								[
-									'col'		=> '12 mt-lg p-0',
-									'content'	=> 'card',
-									'data'	=> [
-										'id'		=> 'job_team_one',
-										'count_id'	=> 'count_job_one',
-										'title'		=> $nick_name_one,
-										'icon'		=> $image_one,
-										'count'		=> $count_job_one,
-										'date'		=> '',
-										'content'	=> 'card-list',
-										'color'		=> 'bg-linear-purple card-square',
-										'data'		=> $this->job_one($data_one)
+									'col'       => '12 mt-lg p-0',
+									'content'   => 'card',
+									'data'  => [
+										'id'        => 'job_team_one',
+										'count_id'  => 'count_job_one',
+										'title'     => $nick_name_one,
+										'icon'      => $image_one,
+										'count'     => $count_job_one,
+										'date'      => '',
+										'content'   => 'card-list',
+										'color'     => 'bg-linear-purple card-square',
+										'data'      => $this->job_one($data_one)
 									]
 								],
 								[
-									'col'		=> '12 mt-lg p-0',
-									'content'	=> 'card',
-									'data'	=> [
-										'id'		=> 'job_team_two',
-										'count_id'	=> 'count_job_two',
-										'title'		=> $nick_name_two,
-										'icon'		=> $image_two,
-										'count'		=> $count_job_two,
-										'date'		=> '',
-										'content'	=> 'card-list',
-										'color'		=> 'bg-linear-purple card-square',
-										'data'		=> $this->job_two($data_two)
+									'col'       => '12 mt-lg p-0',
+									'content'   => 'card',
+									'data'  => [
+										'id'        => 'job_team_two',
+										'count_id'  => 'count_job_two',
+										'title'     => $nick_name_two,
+										'icon'      => $image_two,
+										'count'     => $count_job_two,
+										'date'      => '',
+										'content'   => 'card-list',
+										'color'     => 'bg-linear-purple card-square',
+										'data'      => $this->job_two($data_two)
 									]
 								],
 							]
@@ -388,8 +416,9 @@ class Dashboard extends CI_Controller
 		$this->load->view('layout', $data);
 	}
 
-	public function image_carousel($id = 0)
+	public function image_carousel()
 	{
+		$id = 7;
 		$data_teams = $this->Blueprint->get_jbd_module(['leader_dept', 'detail'], "AND ID=$id");
 		$leader = $data_teams[0]['leader_dept'];
 		$detail = $data_teams[0]['detail'];
@@ -407,6 +436,12 @@ class Dashboard extends CI_Controller
 			];
 		}
 		return $data;
+	}
+
+	public function ajax_image_carousel()
+	{
+		$data['data'] = $this->image_carousel();
+		$this->load->view('digital-signage/template/image-carousel', $data);
 	}
 
 	// ******************************************************************************
@@ -515,35 +550,92 @@ class Dashboard extends CI_Controller
 
 	public function buble_chart()
 	{
-		$divisi_apd = 7;
-		$status = 1;
-		$column = ['reff_note'];
-		$data = $this->Blueprint->count_project_status($divisi_apd, $status, $column);
-
-
-		$data = [
-			[
-				'divisi'	=> 'Design Grafis',
-				'total_job'	=> '9'
-			],
-			[
-				'divisi'	=> 'Job Order',
-				'total_job'	=> '12'
-			],
-			[
-				'divisi'	=> 'New Product',
-				'total_job'	=> '5'
-			],
-		];
+		$data = $this->data_bublechart();
 
 		$config = [];
-		foreach ($data as $val) {
+		foreach ($data[0] as $val) {
 			$config[] = [
 				'divisi'	=> $val['divisi'],
 				'count'		=> $val['total_job']
 			];
 		}
 		return $config;
+	}
+
+	public function data_bublechart()
+	{
+		$divisi_apd = 7;
+		$data = $this->Sobad_module->get_id($divisi_apd, [])[0];
+		$team = explode(",", $data['detail']);
+
+		array_push($team, $data['leader_dept']);
+		$team =  implode(", ", array_map('intval', $team));
+
+		$get_project_detail = $this->Sobad_project_detail->get_all(['project_id'], 'AND user_id IN (' . $team . ')');
+		$data_post = [];
+		$count = 0;
+		$count_joborder = 0;
+		$count_newproduct = 0;
+		$count_designgraphic = 0;
+		foreach ($get_project_detail as $val) {
+			$id_project_detail = $val['project_id'];
+			$get_project = $this->Sobad_project->get_all(['project'], 'AND ID =' . $id_project_detail . '');
+			foreach ($get_project as $value) {
+				$project = $value['project'];
+				$get_sag_post = $this->Sobad_group_post->get_all(['title', 'reff_note'], 'AND var="apd_product" AND ID =' . $project . '');
+				if (!empty($get_sag_post)) {
+					$data_post[] = $get_sag_post;
+				}
+			}
+		}
+
+		foreach ($data_post as $value) {
+			$value = $value[0];
+			if ($value['reff_note'] == 1) {
+				$count_joborder++;
+			} else if ($value['reff_note'] == 2) {
+				$count_newproduct++;
+			} elseif ($value['reff_note'] == 3) {
+				$count_designgraphic++;
+			}
+			$count++;
+		}
+
+		$data = [
+			[
+				[
+					'divisi'	=> 'Design Grafis',
+					'total_job'	=> $count_designgraphic
+				],
+				[
+					'divisi'	=> 'Job Order',
+					'total_job'	=> $count_joborder
+				],
+				[
+					'divisi'	=> 'New Product',
+					'total_job'	=> $count_newproduct
+				],
+			],
+			[
+				'total_count'	=> $count
+			]
+		];
+
+		return $data;
+	}
+
+	public function ajax_bublechart()
+	{
+		$data['data'] = $this->buble_chart();
+		$this->load->view('digital-signage/template/buble-chart', $data);
+	}
+
+	public function count_bublechart()
+	{
+		$count = $this->data_bublechart();
+		$count = $count[1];
+
+		echo $count['total_count'];
 	}
 
 	// ============================
@@ -684,7 +776,6 @@ class Dashboard extends CI_Controller
 	public function image_multiple($data = [])
 	{
 		$data = [$data];
-
 		ob_start();
 ?>
 		<div class="flex justify-center">
@@ -713,89 +804,6 @@ class Dashboard extends CI_Controller
 	// JOB OTHER DPARTEMENT END
 	// ============================
 
-	public function table_confirm()
-	{
-		$data = [
-			[
-				'notes'		=> 'Gambar Design Trofi Bi',
-				'jobdesk'	=> 'Bentuk Dibuat yang wooden tube',
-				'priority'	=> '1', // Low
-				'leader_id'	=> 'assets/Sasi-Dashboard/img/template/fajar.png',
-			],
-			[
-				'notes'		=> 'Gambar Design Plakat',
-				'jobdesk'	=> 'Dibikin Elegan',
-				'priority'	=> '3', // Medium
-				'leader_id'	=> 'assets/Sasi-Dashboard/img/template/fajar.png',
-			],
-			[
-				'notes'		=> 'Gambar Design Pagar Museum',
-				'jobdesk'	=> 'Design dengan tema wayang ',
-				'priority'	=> '5', // High
-				'leader_id'	=> 'assets/Sasi-Dashboard/img/template/fajar.png',
-			],
-		];
-
-		$config['table'] = [
-			'class'	=> 'table-scroll'
-		];
-		$config['thead'] = array(
-			array(
-				'class'	=> 'text-center',
-				'data'	=> '',
-			),
-			array(
-				'class' => 'text-center',
-				'data'  => 'No',
-			),
-			array(
-				'class' => 'text-left',
-				'data'  => 'Title',
-			),
-			array(
-				'class' => 'text-center',
-				'data'  => 'Request',
-			),
-		);
-
-		$no = 0;
-		foreach ($data as $key => $val) {
-			switch ($val['priority']) {
-				case '1':
-					$priority = 'green';
-					break;
-				case '3':
-					$priority = 'yellow';
-					break;
-				case '5':
-					$priority = 'red';
-					break;
-			}
-			$image = '<div class="avatar bg-red">
-					<img width="40px" src="' . $val['leader_id'] . '" alt="">
-				</div>';
-			$config['tbody'][$key] = array(
-				array(
-					'class' => 'text-center',
-					'data'  => '<div class="line-vertical-' . $priority . '"></div>'
-				),
-				array(
-					'class' => 'text-center',
-					'data'  => ++$no
-				),
-				array(
-					'class' => 'text-left',
-					'data'  => $val['notes'] . '<br>' . '<h5>' . $val['jobdesk'] . '</h5>',
-				),
-				array(
-					'class' => 'text-center',
-					'data'  => $image,
-				),
-			);
-		}
-		return $config;
-	}
-
 	public function get_divisi($id = 0)
 	{
 		$get_divisi = $this->Blueprint->get_jbd_module(['name', 'detail', 'leader_dept'], "");
@@ -815,8 +823,8 @@ class Dashboard extends CI_Controller
 		$data = $this->Blueprint->get_projects_team($user_id, $column);
 		$config = [];
 
-
 		foreach ($data as $val) {
+			$get_sag_post = $this->Blueprint->get_post();
 			$leader_project = $val['leader_id_proj'];
 			$get_divisi = $this->get_divisi($leader_project);
 			switch ($val['status_proj']) {
