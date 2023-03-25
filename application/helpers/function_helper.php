@@ -100,8 +100,8 @@ function ajax($url = '', $type = '', $data = [], $respon = '')
         function timer(url, type, data, respon) {
             setInterval(function() {
                 getData(url, type, data, respon)
-            }, 500000);
-        } // panggil setiap 1 detik
+            }, 120000);
+        }
 
 
         function getData(url, type, args, respon) {
@@ -112,6 +112,7 @@ function ajax($url = '', $type = '', $data = [], $respon = '')
                     args: args,
                 },
             }).done(function(data) {
+                $('#slide-container').slick('reinit');
                 $('' + respon + '').html(data);
             });
         };

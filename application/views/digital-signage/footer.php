@@ -20,9 +20,19 @@
     function waktu() {
         var waktu = new Date();
         setTimeout("waktu()", 1000);
-        document.getElementById("jam").innerHTML = waktu.getHours();
-        document.getElementById("menit").innerHTML = waktu.getMinutes();
-        // document.getElementById("detik").innerHTML = waktu.getSeconds();
+        j = waktu.getHours().toString();
+        if (j.length < 2) {
+            j = '0' + j;
+        }
+
+        m = waktu.getMinutes().toString();
+        if (m.length < 2) {
+            m = '0' + m;
+        }
+        // document.getElementById("jam").innerHTML = waktu.getHours();
+        // document.getElementById("menit").innerHTML = waktu.getMinutes();
+        document.getElementById("jam").innerHTML = j
+        document.getElementById("menit").innerHTML = m
     }
 
     function blink() {
