@@ -100,7 +100,7 @@ function ajax($url = '', $type = '', $data = [], $respon = '')
         function timer(url, type, data, respon) {
             setInterval(function() {
                 getData(url, type, data, respon)
-            }, 600000);
+            }, 300000);
         }
 
 
@@ -113,6 +113,8 @@ function ajax($url = '', $type = '', $data = [], $respon = '')
                 },
             }).done(function(data) {
                 $('#slide-container').slick('reinit');
+                $('.table-scroll').infiniteScrollUp();
+                $('.table1-scroll').infiniteScrollUp();
                 $('' + respon + '').html(data);
             });
         };
