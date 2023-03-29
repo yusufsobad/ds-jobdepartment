@@ -1,25 +1,51 @@
-<div class="state-info">
-    <div class="row h-100">
-        <div class="col-xs-2 h-100 flex p-0 justify-center align-item-center ">
-            <div class="line-red mr-sm"></div><span class="black">High Priority</span>
+<div class="w-100">
+    <div class="state-info">
+        <div class="w-80 float-left">
+            <div class="w-17 h-100 float-left flex p-0 justify-center align-item-center ">
+                <div class="line-red mr-xs"></div><span class="black">
+                    <h5>High Priority</h5>
+                </span>
+            </div>
+            <div class="w-17 h-100 float-left flex p-0 justify-center align-item-center ">
+                <div class="line-yellow mr-xs"></div><span class="black">
+                    <h5>Medium Priority</h5>
+                </span>
+            </div>
+            <div class="w-17 h-100 float-left flex p-0 justify-center align-item-center ">
+                <div class="line-green mr-xs"></div><span class="black">
+                    <h5>Low Priority</h5>
+                </span>
+            </div>
+            <div class="w-9 h-100 justify-center float-left flex p-0 align-item-center">
+                <div class="circle-grey mr-xs"></div><span class="black">
+                    <h5>Prepare</h5>
+                </span>
+            </div>
+            <div class="w-9 h-100 justify-center float-left flex p-0 align-item-center">
+                <div class="circle-green mr-xs"></div><span class="black">
+                    <h5>Proccess</h5>
+                </span>
+            </div>
+            <div class="w-9 h-100 justify-center float-left flex p-0 align-item-center">
+                <div class="circle-red mr-xs"></div><span class="black">
+                    <h5>Hold</h5>
+                </span>
+            </div>
+            <div class="w-9 h-100 justify-center float-left flex p-0 align-item-center">
+                <div class="circle-orange mr-xs"></div><span class="black">
+                    <h5>Revisi</h5>
+                </span>
+            </div>
+            <div class="w-9 h-100 justify-center float-left flex p-0 align-item-center">
+                <div class="circle-purple mr-xs"></div><span class="black">
+                    <h5>Check</h5>
+                </span>
+            </div>
         </div>
-        <div class="col-xs-2 h-100 flex p-0 justify-center align-item-center">
-            <div class="line-yellow mr-sm"></div><span class="black">Medium Priority</span>
-        </div>
-        <div class="col-xs-2 h-100 flex p-0 justify-center align-item-center">
-            <div class="line-green mr-sm"></div><span class="black">Low Priority</span>
-        </div>
-        <div class="col-xs-1 h-100 flex p-0 align-item-center">
-            <div class="circle-green mr-sm"></div><span class="black">Proccess</span>
-        </div>
-        <div class="col-xs-1 h-100 flex p-0 align-item-center">
-            <div class="circle-red mr-sm"></div><span class="black">Hold</span>
-        </div>
-        <div class="col-xs-1 h-100 flex p-0 align-item-center">
-            <div class="circle-orange mr-sm"></div><span class="black">Revisi</span>
-        </div>
-        <div class="col-xs-2 h-100 flex p-0 justify-center align-item-center" style="margin-top: -6px;">
-            <img src="assets/Sasi-Dashboard/img/template/sobad-group.png" alt="">
+        <div class="w-11 float-left">
+            <div class="h-100 flex p-0 justify-center align-item-center" style="margin-top: -4px;">
+                <img src="assets/Sasi-Dashboard/img/template/sobad-group.png" alt="">
+            </div>
         </div>
     </div>
 </div>

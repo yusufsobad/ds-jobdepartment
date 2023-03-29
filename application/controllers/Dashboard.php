@@ -648,7 +648,7 @@ class Dashboard extends CI_Controller
 	public function job_other_dpartment()
 	{
 		$divisi_apd = 7;
-		$column = ['ID', 'notes', 'jobdesk', 'priority', 'leader_id', 'due_date', 'progress', 'type'];
+		$column = ['ID', 'notes', 'jobdesk', 'priority', 'leader_id', 'due_date', 'progress', 'type', 'status'];
 		$data = $this->Blueprint->get_project_dpartement($divisi_apd,  $column);
 
 		$config['data']['table'] = [
@@ -716,6 +716,29 @@ class Dashboard extends CI_Controller
 					$priority = 'red';
 					break;
 			}
+
+			switch ($val['status']) {
+				case '1':
+					$status = 'dark-grey';
+					$title = 'Prepare';
+					break;
+				case '2':
+					$status = 'green';
+					$title = 'On Proccess';
+					break;
+				case '3':
+					$status = 'red';
+					$title = 'Hold';
+					break;
+				case '5':
+					$status = 'purple';
+					$title = 'Check';
+					break;
+				case '6':
+					$status = 'yellow';
+					$title = 'Revisi';
+					break;
+			}
 			$config['data']['tbody'][$key] = array(
 				array(
 					'class' => 'text-center',
@@ -739,13 +762,13 @@ class Dashboard extends CI_Controller
 				),
 				array(
 					'class' => 'text-center',
-					'data'  => $val['due_date']
+					'data'  => simple_date_indo($val['due_date'])
 				),
 				array(
 					'class' => 'text-center',
 					'data'  => '<div class="flex justify-center">
-								<div class="circle-state bg-green mr-xs"></div>
-								<h4 class="text-medium">Active</h4>
+								<div class="circle-state bg-' . $status . ' mr-xs"></div>
+								<h4 class="text-medium">' . $title . '</h4>
 							</div>'
 				),
 				array(
@@ -759,7 +782,6 @@ class Dashboard extends CI_Controller
 				),
 			);
 		}
-
 		return $config;
 	}
 
@@ -820,7 +842,6 @@ class Dashboard extends CI_Controller
 		$config = [];
 
 		foreach ($data as $val) {
-			$get_sag_post = $this->Blueprint->get_post();
 			$leader_project = $val['leader_id_proj'];
 			$get_divisi = $this->get_divisi($leader_project);
 			switch ($val['status_proj']) {

@@ -19,6 +19,32 @@ function indo_day($day)
     return  $hari[(int)$day];
 }
 
+function simple_date_indo($tanggal)
+{
+
+    $bulan = array(
+        1 =>   'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sept',
+        'Oct',
+        'Nov',
+        'Dec'
+    );
+    $pecahkan = explode('-', $tanggal);
+
+    // variabel pecahkan 0 = tanggal
+    // variabel pecahkan 1 = bulan
+    // variabel pecahkan 2 = tahun
+
+    return  $pecahkan[0] . ' ' . $bulan[(int)$pecahkan[1]];
+}
+
 function short_month($month)
 {
     $bulan = array(
@@ -79,7 +105,7 @@ function image($url_image = '', $divisi = '')
             break;
     }
     $image_one = '<div class="avatar ' . $background_img . ' ml-lg">
-						<img width="40px" src="https://s.soloabadi.com/system-absen/asset/img/user/' . $url_image . '" alt="">
+						<img width="100%" src="https://s.soloabadi.com/system-absen/asset/img/user/' . $url_image . '" alt="">
 					</div>
 				';
 

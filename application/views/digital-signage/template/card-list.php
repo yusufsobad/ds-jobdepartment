@@ -57,7 +57,7 @@
             </div>
             <div class="col-xs-1 p-0">
                 <div class="avatar <?= $background_img ?> m-auto">
-                    <img width="40px" src="https://s.soloabadi.com/system-absen/asset/img/user/<?= $val['image'] ?>" alt="">
+                    <img width="100%" src="https://s.soloabadi.com/system-absen/asset/img/user/<?= $val['image'] ?>" alt="">
                 </div>
             </div>
             <div class="col-xs-1 job-state">
